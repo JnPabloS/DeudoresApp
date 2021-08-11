@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="accept">Aceptar</string>
+    <string name="amount_example">120000</string>
+    <string name="amount_hint">Digite el valor de la deuda</string>
+    <string name="amount_value">Cantidad: $%s</string>
+    <string name="app_name">DeudoresApp</string>
+    <string name="cancel">Cancelar</string>
+    <string name="create">Crear</string>
+    <string name="debtor_deleted">Duedor eliminado</string>
+    <string name="debtor_updated">Deudor actualizado</string>
+    <string name="dont_exist">No existe</string>
+    <string name="name_example">Pepito Perez</string>
+    <string name="name_hint">Digite el nombre</string>
+    <string name="phone_example">3139999999</string>
+    <string name="phone_hint">Digite el telefono</string>
+    <string name="phone_value">Teléfono: %s</string>
+    <string name="title_create">Crear</string>
+    <string name="title_delete">Borrar</string>
+    <string name="title_detail">Detalle</string>
+    <string name="title_list">Lista</string>
+    <string name="title_read">Buscar</string>
+    <string name="title_update">Actualizar</string>
+</resources>
