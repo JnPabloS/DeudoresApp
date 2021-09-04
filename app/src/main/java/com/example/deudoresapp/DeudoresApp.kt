@@ -2,8 +2,8 @@ package com.example.deudoresapp
 
 import android.app.Application
 import androidx.room.Room
-import com.example.deudoresapp.data.DebtorDatabase
-import com.example.deudoresapp.data.UserDatabase
+import com.example.deudoresapp.data.local.DebtorDatabase
+import com.example.deudoresapp.data.local.UserDatabase
 
 class DeudoresApp : Application() {
 

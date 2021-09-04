@@ -5,14 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.deudoresapp.R
-import com.example.deudoresapp.data.entities.Debtor
+import com.example.deudoresapp.data.local.entities.Debtor
+import com.example.deudoresapp.data.server.DebtorServer
 import com.example.deudoresapp.databinding.CardViewDebtorsItemBinding
+import com.squareup.picasso.Picasso
 
 class DebtorsAdapter(
-    private val onItemClicked: (Debtor) -> Unit,
+    private val onItemClicked: (DebtorServer) -> Unit,
 ) : RecyclerView.Adapter<DebtorsAdapter.ViewHolder>(){
 
-    private var listDebtor: MutableList<Debtor> = mutableListOf()
+    private var listDebtor: MutableList<DebtorServer> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view_debtors_item,parent,false)
@@ -26,7 +28,7 @@ class DebtorsAdapter(
 
     override fun getItemCount(): Int = listDebtor.size
 
-    fun appendItems(newItems: MutableList<Debtor>){
+    fun appendItems(newItems: MutableList<DebtorServer>){
         listDebtor.clear()
         listDebtor.addAll(newItems)
         notifyDataSetChanged()
@@ -35,10 +37,13 @@ class DebtorsAdapter(
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view){
         private val binding = CardViewDebtorsItemBinding.bind(view)
-        fun bind(debtor: Debtor){
+        fun bind(debtor: DebtorServer){
             with(binding){
                 nameTextView.text = debtor.name
                 amountTextView.text = debtor.amount.toString()
+                if(debtor.urlPicture != null){
+                    Picasso.get().load(debtor.urlPicture).into(pictureImageView)
+                }
             }
         }
     }

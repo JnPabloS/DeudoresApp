@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "861560325130",
+    "project_id": "deudoresapp-9218a",
+    "storage_bucket": "deudoresapp-9218a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861560325130:android:2b3a36b63b5af7790a0bf3",
+        "android_client_info": {
+          "package_name": "com.example.deudoresapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861560325130-k534chukbnmtgvtj21diu23eclp26r1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2T4WElfFxIUtFVeteFbA2lgsb3BzwPG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861560325130-k534chukbnmtgvtj21diu23eclp26r1l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

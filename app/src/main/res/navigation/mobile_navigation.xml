@@ -43,6 +43,6 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="debtor"
-            app:argType="com.example.deudoresapp.data.entities.Debtor" />
+            app:argType="com.example.deudoresapp.data.local.entities.Debtor" />
     </fragment>
 </navigation>

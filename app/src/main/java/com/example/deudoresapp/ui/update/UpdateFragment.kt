@@ -9,9 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.deudoresapp.DeudoresApp
 import com.example.deudoresapp.R
-import com.example.deudoresapp.data.dao.DebtorDao
-import com.example.deudoresapp.data.entities.Debtor
+import com.example.deudoresapp.data.local.dao.DebtorDao
+import com.example.deudoresapp.data.local.entities.Debtor
+import com.example.deudoresapp.data.server.DebtorServer
 import com.example.deudoresapp.databinding.FragmentUpdateBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 class UpdateFragment : Fragment() {
 
@@ -33,7 +37,7 @@ class UpdateFragment : Fragment() {
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        var idDebtor = 0
+        var idDebtor : String? = ""
 
         binding.updateButton.setOnClickListener {
 
@@ -41,31 +45,73 @@ class UpdateFragment : Fragment() {
             val name = binding.nameEditText.text.toString()
 
             if(isSearching){  //Buscando
-                val debtor: Debtor = debtorDao.readDebtor(name)
-                if(debtor != null){
-                    idDebtor = debtor.id
-                    binding.amountEditText.setText(debtor.amount.toString())
-                    binding.phoneEditText.setText(debtor.phone)
-                    binding.updateButton.text = getString(R.string.title_update)
-                    isSearching = false
-                }else
-                    Toast.makeText(requireContext(), getString(R.string.dont_exist), Toast.LENGTH_SHORT).show()
+                //searchLocal(debtorDao, name, idDebtor)
+
+                val db = Firebase.firestore
+                db.collection("deudores").get().addOnSuccessListener {result ->
+                    for (document in result){
+                        val debtor: DebtorServer = document.toObject<DebtorServer>()
+                        if(debtor.name == name){
+                            idDebtor = debtor.id
+                            with(binding){
+                                phoneEditText.setText(debtor.phone)
+                                amountEditText.setText(debtor.amount.toString())
+                                binding.updateButton.text = getString(R.string.title_update)
+                                isSearching = false
+                            }
+                        }
+                    }
+                }
             }else{      //Actualizando
-                val deudor = Debtor(
-                    id = idDebtor,
-                    name = binding.nameEditText.text.toString(),
-                    phone = binding.phoneEditText.text.toString(),
-                    amount = binding.amountEditText.text.toString().toLong()
-                )
-                debtorDao.updateDebtor(deudor)
+                //updateLocal(idDebtor, debtorDao)
+                val documentUpdate = HashMap<String, Any>()
+                documentUpdate["name"] = binding.nameEditText.text.toString()
+                documentUpdate["amount"] = binding.amountEditText.text.toString().toLong()
+                documentUpdate["phone"] = binding.phoneEditText.text.toString()
+
+                val db = Firebase.firestore
+                idDebtor?.let { id -> db.collection("deudores").document(id).update(documentUpdate).addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Deudor actualizado", Toast.LENGTH_SHORT).show()
+                } }
+
                 binding.updateButton.text = getString(R.string.title_read)
                 isSearching = true
                 cleanWidgets()
-                Toast.makeText(requireContext(), getString(R.string.debtor_updated), Toast.LENGTH_SHORT).show()
             }
         }
 
         return root
+    }
+
+    private fun updateLocal(
+        idDebtor: String,
+        debtorDao: DebtorDao
+    ) {
+        val deudor = Debtor(
+            id = idDebtor.toInt(),
+            name = binding.nameEditText.text.toString(),
+            phone = binding.phoneEditText.text.toString(),
+            amount = binding.amountEditText.text.toString().toLong()
+        )
+        debtorDao.updateDebtor(deudor)
+    }
+
+    private fun searchLocal(
+        debtorDao: DebtorDao,
+        name: String,
+        idDebtor: Int
+    ) {
+        var idDebtor1 = idDebtor
+        val debtor: Debtor = debtorDao.readDebtor(name)
+        if (debtor != null) {
+            idDebtor1 = debtor.id
+            binding.amountEditText.setText(debtor.amount.toString())
+            binding.phoneEditText.setText(debtor.phone)
+            binding.updateButton.text = getString(R.string.title_update)
+            isSearching = false
+        } else
+            Toast.makeText(requireContext(), getString(R.string.dont_exist), Toast.LENGTH_SHORT)
+                .show()
     }
 
     private fun cleanWidgets() {

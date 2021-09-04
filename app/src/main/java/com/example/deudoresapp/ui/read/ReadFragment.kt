@@ -1,19 +1,23 @@
 package com.example.deudoresapp.ui.read
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.deudoresapp.DeudoresApp
 import com.example.deudoresapp.R
-import com.example.deudoresapp.data.dao.DebtorDao
-import com.example.deudoresapp.data.entities.Debtor
+import com.example.deudoresapp.data.local.dao.DebtorDao
+import com.example.deudoresapp.data.local.entities.Debtor
+import com.example.deudoresapp.data.server.DebtorServer
 import com.example.deudoresapp.databinding.FragmentReadBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 class ReadFragment : Fragment() {
 
@@ -41,10 +45,27 @@ class ReadFragment : Fragment() {
         })
 
         binding.searchButton.setOnClickListener {
-            readDebtors(binding.nameEditText.text.toString())
+            //readDebtors(binding.nameEditText.text.toString())
+            readDebtorsFromServer(binding.nameEditText.text.toString())
         }
 
         return root
+    }
+
+    private fun readDebtorsFromServer(name: String) {
+        val db = Firebase.firestore
+        db.collection("deudores").get().addOnSuccessListener {result ->
+            for (document in result){
+                val debtor: DebtorServer = document.toObject<DebtorServer>()
+                if(debtor.name == name){
+                    with(binding){
+                        phoneTextView.text = getString(R.string.phone_value, debtor.phone)
+                        amountTextView.text = getString(R.string.amount_value, debtor.amount.toString())
+                    }
+                }
+            }
+        }
+
     }
 
     private fun readDebtors(name: String) {

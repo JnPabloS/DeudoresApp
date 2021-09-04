@@ -8,8 +8,8 @@ import androidx.core.widget.doAfterTextChanged
 import com.example.deudoresapp.DeudoresApp
 import com.example.deudoresapp.DeudoresApp.Companion.userDatabase
 import com.example.deudoresapp.R
-import com.example.deudoresapp.data.dao.UserDao
-import com.example.deudoresapp.data.entities.User
+import com.example.deudoresapp.data.local.dao.UserDao
+import com.example.deudoresapp.data.local.entities.User
 import com.example.deudoresapp.databinding.ActivityRegisterBinding
 import com.example.deudoresapp.utils.emailValidator
 import com.example.deudoresapp.utils.lengthString

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.example.deudoresapp.R
-import com.example.deudoresapp.data.entities.Debtor
+import com.example.deudoresapp.data.local.entities.Debtor
 
 class DetailFragment : Fragment() {
 

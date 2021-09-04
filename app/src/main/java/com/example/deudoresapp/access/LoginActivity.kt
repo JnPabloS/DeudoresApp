@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.deudoresapp.DeudoresApp
 import com.example.deudoresapp.MainActivity
-import com.example.deudoresapp.data.dao.UserDao
-import com.example.deudoresapp.data.entities.User
+import com.example.deudoresapp.data.local.dao.UserDao
+import com.example.deudoresapp.data.local.entities.User
 import com.example.deudoresapp.databinding.ActivityLoginBinding
 import com.example.deudoresapp.utils.compareStrings
 import com.example.deudoresapp.utils.notEmptyFields
